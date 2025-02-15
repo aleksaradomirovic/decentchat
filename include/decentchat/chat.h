@@ -8,13 +8,4 @@
 
 #pragma once
 
-#include <netinet/in.h>
-
-struct dchat_server;
-
-int dchat_server_init(struct dchat_server **, in_port_t);
-int dchat_server_close(struct dchat_server *);
-
-in_port_t dchat_server_get_port(const struct dchat_server *);
-
-int dchat_server_poll(struct dchat_server *);
+typedef struct dchat_session dchat_session_t;

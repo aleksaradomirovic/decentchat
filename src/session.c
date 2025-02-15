@@ -52,12 +52,10 @@ int dchat_session_init(struct dchat_session ** ptr) {
 }
 
 int dchat_session_close(struct dchat_session * session) {
-    if(pthread_mutex_lock(&session->servers_list_mutex) != 0) {
-        return -1;
-    }
+    pthread_mutex_lock(&session->servers_list_mutex);
 
     for(struct dchat_server_list_node * node = session->servers_list; node != NULL;) {
-        dchat_server_decref(node->server);
+        dchat_server_close(node->server);
         struct dchat_server_list_node * next = node->next;
         free(node);
         node = next;
@@ -74,9 +72,7 @@ int dchat_session_close(struct dchat_session * session) {
 }
 
 int dchat_session_open_server(struct dchat_session * session, in_port_t port) {
-    if(pthread_mutex_lock(&session->servers_list_mutex) != 0) {
-        return -1;
-    }
+    pthread_mutex_lock(&session->servers_list_mutex);
 
     struct dchat_server_list_node ** nodeptr = &session->servers_list;
     for(; *nodeptr != NULL; nodeptr = &(*nodeptr)->next) {
@@ -105,9 +101,7 @@ int dchat_session_open_server(struct dchat_session * session, in_port_t port) {
 }
 
 int dchat_session_close_server(struct dchat_session * session, in_port_t port) {
-    if(pthread_mutex_lock(&session->servers_list_mutex) != 0) {
-        return -1;
-    }
+    pthread_mutex_lock(&session->servers_list_mutex);
 
     struct dchat_server_list_node ** nodeptr = &session->servers_list;
     for(;; nodeptr = &(*nodeptr)->next) {
@@ -124,7 +118,7 @@ int dchat_session_close_server(struct dchat_session * session, in_port_t port) {
     struct dchat_server_list_node * node = *nodeptr;
     *nodeptr = node->next;
 
-    dchat_server_decref(node->server);
+    dchat_server_close(node->server);
     free(node);
 
     pthread_mutex_unlock(&session->servers_list_mutex);

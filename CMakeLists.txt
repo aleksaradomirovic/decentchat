@@ -18,6 +18,8 @@ enable_testing()
 
 add_library(
     decentchat SHARED
+    src/conn.c
+    src/conn.h
     src/server.c
     src/server.h
     src/session.c
