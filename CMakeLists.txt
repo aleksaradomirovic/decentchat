@@ -21,12 +21,14 @@ endif()
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(LIBEVENT REQUIRED libevent>=2.1 libevent_pthreads)
 
-set(CMAKE_C_FLAGS "-Wall")
-set(CMAKE_C_FLAGS_DEBUG "-Og -fanalyzer")
-set(CMAKE_C_FLAGS_RELEASE "-fvisibility=hidden")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall")
+set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -Og -fanalyzer")
+set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -fvisibility=hidden")
 
 add_library(
     decentchat SHARED
+    src/list.h
+    src/map.h
     src/port.c
     src/port.h
     src/server.c

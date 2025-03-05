@@ -21,6 +21,10 @@ int main() {
         return -1;
     }
 
+    if(dchat_server_open_port(&server, 20030) == 0) {
+        return -1;
+    }
+
     if(dchat_server_close_port(&server, 20030) != 0) {
         return -1;
     }

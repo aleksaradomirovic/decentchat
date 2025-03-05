@@ -71,7 +71,7 @@ static int dchat_port_finalize(struct dchat_port * port, in_port_t inetport) {
     return 0;
 }
 
-static int dchat_port_halt_event(struct dchat_port * port) {
+int dchat_port_halt(struct dchat_port * port) {
     if(event_del(port->ev) != 0) {
         return -1;
     }
@@ -88,15 +88,13 @@ int dchat_port_init(struct dchat_port * port, in_port_t inetport, struct dchat_s
         dchat_port_destroy_socket_and_event(port);
         return -1;
     }
+
+    port->refs = 1;
     
     return 0;
 }
 
 int dchat_port_destroy(struct dchat_port * port) {
-    if(dchat_port_halt_event(port) != 0) {
-        return -1;
-    }
-
     if(dchat_port_destroy_socket_and_event(port) != 0) {
         return -1;
     }
