@@ -6,19 +6,23 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-#include "test.h"
-#include "server.h"
+#ifndef _DCHAT_H
+#define _DCHAT_H
 
-int main() {
-    struct dchat_server server;
+#define DCHAT_EXPORT __attribute__((visibility ("default")))
 
-    if(dchat_server_init(&server) != 0) {
-        return -1;
-    }
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-    if(dchat_server_destroy(&server) != 0) {
-        return -1;
-    }
 
-    return 0;
+DCHAT_EXPORT int dchat_init();
+
+DCHAT_EXPORT int dchat_fini();
+
+
+#ifdef __cplusplus
 }
+#endif
+
+#endif

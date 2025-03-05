@@ -6,19 +6,18 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-#include "test.h"
-#include "server.h"
+#include "dchat/dchat.h"
 
-int main() {
-    struct dchat_server server;
+#include <event2/thread.h>
 
-    if(dchat_server_init(&server) != 0) {
+int dchat_init() {
+    if(evthread_use_pthreads() != 0) {
         return -1;
     }
 
-    if(dchat_server_destroy(&server) != 0) {
-        return -1;
-    }
+    return 0;
+}
 
+int dchat_fini() {
     return 0;
 }

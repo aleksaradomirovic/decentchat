@@ -10,15 +10,7 @@
 
 #include "port.h"
 
-#include <event2/thread.h>
 #include <stdlib.h>
-
-__attribute__((constructor))
-void setup_libevent() {
-    if(evthread_use_pthreads() != 0) {
-        exit(-1);
-    }
-}
 
 static void * dchat_server_event_loop(void * ptr) {
     struct dchat_server * server = (struct dchat_server *) ptr;

@@ -20,14 +20,17 @@ endif()
 
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(LIBEVENT REQUIRED libevent>=2.1 libevent_pthreads)
+pkg_check_modules(LIBTLS REQUIRED gnutls>=3.7)
+pkg_check_modules(LIBQUIC REQUIRED libngtcp2 libngtcp2_crypto_gnutls libnghttp3)
 
 set(CMAKE_C_STANDARD 23)
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall")
-set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -Og -fanalyzer")
+set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -Wextra -Og -fanalyzer")
 set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -fvisibility=hidden")
 
 add_library(
     decentchat SHARED
+    src/api.c
     src/list.h
     src/map.h
     src/port.c
@@ -41,11 +44,15 @@ target_include_directories(
 target_include_directories(
     decentchat PRIVATE
     ${LIBEVENT_INCLUDE_DIRS}
+    ${LIBTLS_INCLUDE_DIRS}
+    ${LIBQUIC_INCLUDE_DIRS}
 )
 target_link_libraries(
     decentchat PRIVATE
     pthread
     ${LIBEVENT_LIBRARIES}
+    ${LIBTLS_LIBRARIES}
+    ${LIBQUIC_LIBRARIES}
 )
 
 if(BUILD_TESTING)

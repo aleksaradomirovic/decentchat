@@ -6,11 +6,10 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+#include "test.h"
 #include "server.h"
 
 int main() {
-    // event_enable_debug_logging(EVENT_DBG_ALL);
-
     struct dchat_server server;
 
     if(dchat_server_init(&server) != 0) {
