@@ -15,3 +15,6 @@ add_test(NAME portinit COMMAND test-portinit)
 
 add_executable(test-portdup portdup.c)
 add_test(NAME portdup COMMAND test-portdup)
+
+add_executable(test-serverdestroyearly serverdestroyearly.c)
+add_test(NAME serverdestroyearly COMMAND test-serverdestroyearly)

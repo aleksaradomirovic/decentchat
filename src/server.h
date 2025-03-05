@@ -9,6 +9,7 @@
 #pragma once
 
 #include "list.h"
+#include "map.h"
 
 #include <event2/event.h>
 #include <netinet/in.h>
