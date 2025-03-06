@@ -5,16 +5,14 @@
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 cmake_minimum_required(VERSION 3.25)
-project(decentchat LANGUAGES C)
+project(decentchat LANGUAGES C CXX)
 
 option(DEBUG "Build in debug mode" OFF)
 
 if(DEBUG)
     set(CMAKE_BUILD_TYPE Debug)
-    option(BUILD_TESTING "Build tests" ON)
 else()
     set(CMAKE_BUILD_TYPE Release)
-    option(BUILD_TESTING "Build tests" OFF)
 endif()
 
 
@@ -55,7 +53,6 @@ target_link_libraries(
     ${LIBQUIC_LIBRARIES}
 )
 
-if(BUILD_TESTING)
-    include(CTest)
+if(DEBUG)
     add_subdirectory(test)
 endif()

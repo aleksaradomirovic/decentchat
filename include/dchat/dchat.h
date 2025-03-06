@@ -9,6 +9,8 @@
 #ifndef _DCHAT_H
 #define _DCHAT_H
 
+#include <stdint.h>
+
 #define DCHAT_EXPORT __attribute__((visibility ("default")))
 
 #ifdef __cplusplus
@@ -19,6 +21,18 @@ extern "C" {
 DCHAT_EXPORT int dchat_init();
 
 DCHAT_EXPORT int dchat_fini();
+
+typedef void * dchat_t;
+
+DCHAT_EXPORT int dchat_open(dchat_t *);
+
+DCHAT_EXPORT int dchat_close(dchat_t);
+
+typedef uint16_t dchat_port_t;
+
+DCHAT_EXPORT int dchat_open_port(dchat_t, dchat_port_t);
+
+DCHAT_EXPORT int dchat_close_port(dchat_t, dchat_port_t);
 
 
 #ifdef __cplusplus

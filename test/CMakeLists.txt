@@ -4,17 +4,36 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-include_directories(../src)
-link_libraries(decentchat ${LIBEVENT_LIBRARIES})
+find_package(GTest REQUIRED)
 
-add_executable(test-serverinit serverinit.c)
-add_test(NAME serverinit COMMAND test-serverinit)
+include_directories(
+    ../src
+    ${LIBEVENT_INCLUDE_DIRS}
+    ${LIBTLS_INCLUDE_DIRS}
+    ${LIBQUIC_INCLUDE_DIRS}
+)
+link_libraries(
+    GTest::gtest
+    GTest::gtest_main
 
-add_executable(test-portinit portinit.c)
-add_test(NAME portinit COMMAND test-portinit)
+    decentchat
 
-add_executable(test-portdup portdup.c)
-add_test(NAME portdup COMMAND test-portdup)
+    ${LIBEVENT_LIBRARIES}
+    ${LIBTLS_LIBRARIES}
+    ${LIBQUIC_LIBRARIES}
+)
 
-add_executable(test-serverdestroyearly serverdestroyearly.c)
-add_test(NAME serverdestroyearly COMMAND test-serverdestroyearly)
+function(add_gtest NAME)
+    add_executable(${NAME} ${NAME}.cpp)
+    add_custom_target(test-${NAME} COMMAND ${CMAKE_CURRENT_BINARY_DIR}/${NAME} DEPENDS ${NAME})
+    list(APPEND ALL_TEST test-${NAME})
+    set(ALL_TEST ${ALL_TEST} PARENT_SCOPE)
+endfunction()
+
+add_gtest(servertest)
+
+message(STATUS ${ALL_TEST})
+
+add_custom_target(
+    test DEPENDS ${ALL_TEST}
+)
